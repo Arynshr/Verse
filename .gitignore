@@ -1,0 +1,12 @@
+# Ignore build directories
+/bin/
+/obj/
+
+# Ignore compiled object files
+*.o
+*.obj
+*.exe
+*.out
+
+# Ignore SQLite database files (if applicable)
+*.sqlite3
