@@ -10,3 +10,8 @@
 
 # Ignore SQLite database files (if applicable)
 *.sqlite3
+
+# Dynamic libraries
+*.dll
+
+*.mp3

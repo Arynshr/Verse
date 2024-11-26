@@ -1,3 +1,79 @@
 {
-    "cmake.sourceDirectory": "/mnt/d/project/VERSE/tests/data"
+    // C/C++ configuration
+    "C_Cpp.default.compilerPath": "/usr/bin/x86_64-w64-mingw32-gcc",
+    "C_Cpp.default.intelliSenseMode": "windows-gcc-x64",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.cStandard": "c17",
+    
+    // Include paths for Windows headers
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "/usr/x86_64-w64-mingw32/include",
+        "/usr/include/wine/windows"
+    ],
+    
+    // Additional compiler arguments
+    "C_Cpp.default.compilerArgs": [
+        "-m64",
+        "-Wall",
+        "-Wextra"
+    ],
+    
+    // Tasks configuration for building Windows executables
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "type": "shell",
+                "label": "x86_64-w64-mingw32-gcc build active file",
+                "command": "/usr/bin/x86_64-w64-mingw32-gcc",
+                "args": [
+                    "-g",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}.exe"
+                ],
+                "options": {
+                    "cwd": "${workspaceFolder}"
+                },
+                "problemMatcher": [
+                    "$gcc"
+                ],
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                }
+            }
+        ]
+    },
+    
+    // Launch configuration for debugging
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Debug Windows Executable",
+                "type": "cppdbg",
+                "request": "launch",
+                "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+                "args": [],
+                "stopAtEntry": false,
+                "cwd": "${workspaceFolder}",
+                "environment": [],
+                "externalConsole": false,
+                "MIMode": "gdb",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ]
+            }
+        ]
+    },
+    "cmake.ignoreCMakeListsMissing": true,
+    "files.associations": {
+        "cstdlib": "cpp"
+    }
 }
