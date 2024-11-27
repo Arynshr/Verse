@@ -7,9 +7,8 @@
 
 using namespace std;
 
-class TreeNode;         
+class TreeNode;
 class tree;
-class Tree2;
 /*Details class contains information for each songs*/
 class details
 {
@@ -33,7 +32,7 @@ public:
         fileName = f;
     }
     // Add song names to the bst for future uses
-    void addDetails(TreeNode *, Tree2);
+    void addDetails(TreeNode *, tree);
   
     void printDetails()
     {
@@ -58,180 +57,26 @@ public:
 
 /* TreeNode class contains the basic structure of the BST implemented in the code*/
 
-// class TreeNode
-// {
-// public:
-//     string name;
-//     TreeNode *left, *right;
-  
-//     TreeNode()
-//     {
-//         name = "";
-//         left = NULL;
-//         right = NULL;
-//     }
-    
-//     TreeNode(string s)
-//     {
-//         name = s;
-//         left = NULL;
-//         right = NULL;
-//     }
-// };
-
-
-class TreeNode {
+class TreeNode
+{
 public:
     string name;
-    TreeNode* left;
-    TreeNode* right;
-    int height;
-
-    TreeNode(string val) {
-        name = val;
-        left = right = NULL;
-        height = 1;
+    TreeNode *left, *right;
+  
+    TreeNode()
+    {
+        name = "";
+        left = NULL;
+        right = NULL;
+    }
+    
+    TreeNode(string s)
+    {
+        name = s;
+        left = NULL;
+        right = NULL;
     }
 };
-
-class Tree2 {
-private:
-    TreeNode* root;
-
-    int get_height(TreeNode* node) {
-        if (node == NULL) return 0;
-        return node->height;
-    }
-
-    int balance_factor(TreeNode* node) {
-        if (node == NULL) return 0;
-        return get_height(node->left) - get_height(node->right);
-    }
-
-    TreeNode* rot_right(TreeNode* y) {
-        TreeNode* x = y->left;
-        TreeNode* T2 = x->right;
-
-        x->right = y;
-        y->left = T2;
-
-        y->height = 1 + max(get_height(y->left), get_height(y->right));
-        x->height = 1 + max(get_height(x->left), get_height(x->right));
-
-        return x;
-    }
-
-    TreeNode* rot_left(TreeNode* x) {
-        TreeNode* y = x->right;
-        TreeNode* T2 = y->left;
-
-        y->left = x;
-        x->right = T2;
-
-        x->height = 1 + max(get_height(x->left), get_height(x->right));
-        y->height = 1 + max(get_height(y->left), get_height(y->right));
-
-        return y;
-    }
-
-    TreeNode* insert_rec(TreeNode* node, string name) {
-        if (node == NULL) {
-            return new TreeNode(name);
-        }
-
-        if (name < node->name) {
-            node->left = insert_rec(node->left, name);
-        } else if (name > node->name) {
-            node->right = insert_rec(node->right, name);
-        } else {
-            return node;
-        }
-
-        node->height = 1 + max(get_height(node->left), get_height(node->right));
-
-        int balance = balance_factor(node);
-
-
-        if (balance > 1 && name < node->left->name) {
-            return rot_right(node);
-        }
-
-        if (balance < -1 && name > node->right->name) {
-            return rot_left(node);
-        }
-
-        if (balance > 1 && name > node->left->name) {
-            node->left = rot_left(node->left);
-            return rot_right(node);
-        }
-
-        if (balance < -1 && name < node->right->name) {
-            node->right = rot_right(node->right);
-            return rot_left(node);
-        }
-
-        return node;
-    }
-
-public:
-    Tree2() {
-        root = NULL;
-    }
-
-    void insertIntoAVL(string name) {
-        root = insert_rec(root, name);
-    }
-
-    void display() {
-        if (root == NULL) {
-            cout << "Empty!!!" << endl;
-            return;
-        }
-        
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        while (!q.empty()) {
-            TreeNode* node = q.front();
-            q.pop();
-            
-            cout << node->name << "\n";
-            
-            if (node->left != NULL)
-                q.push(node->left);
-            
-            if (node->right != NULL)
-                q.push(node->right);
-        }
-        cout << endl;
-    }
-
-    int searchnplay(string name, details* d) {
-        TreeNode* temp = root;
-        
-        while (temp != NULL) {
-            if (temp->name == name) {
-                return getindex(d, name);
-            } else if (name < temp->name) {
-                temp = temp->left;
-            } else {
-                temp = temp->right;
-            }
-        }
-        
-        cout << "Not found in our library!!" << endl;
-        return -1;
-    }
-
-    int getindex(details* d, string name) {
-        for (int i = 0; i < 10; i++) {
-            if (d[i].name == name) {
-                return i;
-            }
-        }
-            return -1;
-    }
-}avl;
 
 /* tree class contains all related functions for BST implementation */
 
@@ -346,9 +191,9 @@ public:
 } bst; // global object of the tree
 
 
-void details::addDetails(TreeNode *root, Tree2 t)
+void details::addDetails(TreeNode *root, tree t)
 {
-    t.insertIntoAVL(name);
+    t.insertIntoBST(name);
 }
 // structure of each song
 struct song
@@ -359,7 +204,7 @@ struct song
 };
 /* function to write songs into details array
 and bst by reading from files */
-bool writeSongs(details *d, Tree2 *avl)
+bool writeSongs(details *d, tree *bst)
 {
     fstream database("nameartist.txt");
     fstream fileNames("mp3list.txt");
@@ -395,7 +240,7 @@ bool writeSongs(details *d, Tree2 *avl)
                 i++;
             }
             // bst insertion function calling
-            avl->insertIntoAVL(name);
+            bst->insertIntoBST(name);
             // insertion in details array calling
             (d + j)->addDetails(name, artist, file);
             j++;
@@ -666,11 +511,11 @@ int main()
     int ch, w = 0, opt = 1;
     int i = 0, x, y, z;
     playlist p[10];
-    writeSongs(d, &avl);
+    writeSongs(d, &bst);
     cout<<string(3, '\n');
     cout<<"Verse - Music streaming platform"<<string(2, '\n');
     cout << "SONGS IN LIBRARY: "<<"\n";
-    avl.display();
+    bst.display();
     cout << endl;
     while (true)
     {
@@ -801,7 +646,7 @@ int main()
             string name;
             cout << "Enter song name to search: ";
             getline(cin >> ws, name);
-            int idx = avl.searchnplay(name, d);
+            int idx = bst.searchnplay(name, d);
             playSong(d[idx]);
             break;
         }
