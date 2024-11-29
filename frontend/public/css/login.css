@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* Dark background */
+    color: #FFFFFF; /* White text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Container styling */
+.container {
+    background-color: #1F1F1F; /* Slightly lighter dark background */
+    width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+/* Title styling */
+.container h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* Input fields */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #333333; /* Dark border for input fields */
+    border-radius: 8px;
+    background-color: #2A2A2A; /* Input field background */
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+/* Placeholder styling for better visibility */
+input::placeholder {
+    color: #AAAAAA; /* Light gray placeholders */
+}
+
+/* Submit button */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3B82F6; /* Bright blue button */
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #2563EB; /* Slightly darker blue on hover */
+}
+
+/* Error message styling */
+.error-message {
+    color: #FF6B6B; /* Soft red for errors */
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+}
