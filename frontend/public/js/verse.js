@@ -88,6 +88,70 @@ playButtons.forEach(button => {
     });
 });
 
+// Get references to the elements
+const bellButton = document.querySelector('.notification-bell');
+const notificationPopup = document.getElementById('notificationPopup');
+const notificationMessage = document.querySelector('.notification-message');
+
+// Function to show the notification popup
+function showNotification(message) {
+  notificationMessage.textContent = message;
+  notificationPopup.style.display = 'block';
+  // Optionally, you can add a timeout to hide the popup after a certain time:
+  setTimeout(() => {
+    notificationPopup.style.display = 'none';
+  }, 3000); // Hide after 3 seconds
+}
+
+// Event listener for the bell button
+bellButton.addEventListener('click', () => {
+  showNotification('You have a new notification!');
+});
+
+function createPlaylist() {
+    const name = document.getElementById('playlistName').value;
+    fetch('playlist_manager.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: 'create_playlist',
+            user_id: 1,  // Current user ID
+            name: name,
+            description: ''
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            alert('Playlist Created!');
+            loadUserPlaylists();
+        }
+    });
+}
+
+function searchSongs() {
+    const query = document.getElementById('songSearch').value;
+    fetch('playlist_manager.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: 'search_songs',
+            query: query
+        })
+    })
+    .then(response => response.json())
+    .then(songs => {
+        const resultsDiv = document.getElementById('searchResults');
+        resultsDiv.innerHTML = songs.map(song => 
+            `${song.title} - ${song.artist} 
+            <button onclick="addToPlaylist(${song.song_id})">Add</button>`
+        ).join('<br>');
+    });
+}
 
 
 
